@@ -1,10 +1,11 @@
-import { useState } from 'react';
 import type { Note } from './types/note';
+import { NoteCard } from './components/NoteCard';
+import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 function App() {
-  const [notes, setNotes] = useState<Note[]>([]); // 💡 notes is an array of Note
-  const [title, setTitle] = useState<string>(''); // 💡 explicitly typed
+  const [notes, setNotes] = useState<Note[]>([]);
+  const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
 
   const handleAddNote = () => {
@@ -25,6 +26,8 @@ function App() {
   return (
     <div className="max-w-xl mx-auto mt-10 p-4 bg-white rounded shadow">
       <h1 className="text-2xl font-bold mb-4">📝 My Notes</h1>
+
+      {/* Input Form */}
       <input
         type="text"
         placeholder="Title"
@@ -44,6 +47,13 @@ function App() {
       >
         Add Note
       </button>
+
+      {/* Notes List */}
+      <div className="mt-6">
+        {notes.map((note) => (
+          <NoteCard key={note.id} note={note} />
+        ))}
+      </div>
     </div>
   );
 }
