@@ -12,6 +12,8 @@ function App() {
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>(''); // 🧠 search input
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const [tagInput, setTagInput] = useState<string>(''); // for new tag typing
+
 
 
   const availableTags = ['Work', 'Personal', 'Urgent', 'Ideas', 'Study'];
@@ -49,7 +51,7 @@ function App() {
 
     try {
       const savedNotes = localStorage.getItem('notes');
-      console.log('Loaded from localStorage:', savedNotes);
+      // console.log('Loaded from localStorage:', savedNotes);
       if (savedNotes) {
         const parsed: Note[] = JSON.parse(savedNotes);
         const notesWithDates = parsed.map((note) => {
@@ -63,7 +65,7 @@ function App() {
           };
         });
         setNotes(notesWithDates);
-        console.log('Parsed notes:', notesWithDates);
+        // console.log('Parsed notes:', notesWithDates);
       }
     } catch (error) {
       console.error('Failed to load notes from localStorage:', error);
@@ -80,7 +82,7 @@ function App() {
     try {
       const serializedNotes = JSON.stringify(notes);
       localStorage.setItem('notes', serializedNotes);
-      console.log('Saved to localStorage:', serializedNotes);
+      // console.log('Saved to localStorage:', serializedNotes);
     } catch (error) {
       console.error('Failed to save notes to localStorage:', error);
       setError('Failed to save notes. Please try again.');
@@ -192,27 +194,48 @@ function App() {
           />
           <div className="mb-4">
             <p className="font-medium mb-2">Tags:</p>
-            <div className="flex flex-wrap gap-2">
-              {availableTags.map((tag) => (
-                <label key={tag} className="flex items-center space-x-2 text-sm">
-                  <input
-                    type="checkbox"
-                    value={tag}
-                    checked={selectedTags.includes(tag)}
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      setSelectedTags((prev) =>
-                        prev.includes(value)
-                          ? prev.filter((t) => t !== value)
-                          : [...prev, value]
-                      );
-                    }}
-                  />
-                  <span>{tag}</span>
-                </label>
-              ))}
-            </div>
-          </div>
+
+            <input
+              type="text"
+              placeholder="Add tag and press Enter"
+              className="border p-2 w-full mb-2 rounded"
+              value={tagInput}
+              onChange={(e) => setTagInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ',') {
+                  e.preventDefault();
+                  const trimmed = tagInput.trim();
+
+                  if (trimmed && !selectedTags.includes(trimmed)) {
+                    setSelectedTags([...selectedTags, trimmed]);
+                  }
+
+                  setTagInput('');
+                }
+              }}
+          />
+
+  {/* Show selected tags */}
+  <div className="flex flex-wrap gap-2">
+    {selectedTags.map((tag) => (
+      <span
+        key={tag}
+        className="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded-full flex items-center gap-1"
+      >
+        {tag}
+        <button
+          onClick={() =>
+            setSelectedTags(selectedTags.filter((t) => t !== tag))
+          }
+          className="text-blue-500 hover:text-blue-700"
+        >
+          ×
+        </button>
+      </span>
+    ))}
+  </div>
+</div>
+
         </div>
         <button
           type="submit"
