@@ -91,6 +91,14 @@ function App() {
     setNotes((prevNotes) => prevNotes.filter((note) => note.id !== id));
   };
 
+  const handleEditNote = (id: string, updatedFields: Partial<Note>) => {
+    setNotes((prevNotes) =>
+      prevNotes.map((note) =>
+        note.id === id ? { ...note, ...updatedFields } : note
+      )
+    );
+  };
+  
   // const filteredNotes = notes.filter((note) =>
   //   note.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
   //   note.content.toLowerCase().includes(searchTerm.toLowerCase())
@@ -220,7 +228,12 @@ function App() {
           <p className="text-gray-500">No notes yet. Add one above!</p>
         ) : (
           filteredNotes.map((note) => (
-            <NoteCard key={note.id} note={note} onDelete={handleDeleteNote} />
+            <NoteCard 
+              key={note.id} 
+              note={note} 
+              onDelete={handleDeleteNote}
+              onEdit={handleEditNote}
+            />
           ))
           
         )}
