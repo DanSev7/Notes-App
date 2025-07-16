@@ -9,6 +9,7 @@ function App() {
   const [content, setContent] = useState<string>('');
   const [isInitialized, setIsInitialized] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState<string>(''); // 🧠 search input
 
   const handleAddNote = (e: React.FormEvent) => {
     e.preventDefault();
@@ -82,6 +83,12 @@ function App() {
     setNotes((prevNotes) => prevNotes.filter((note) => note.id !== id));
   };
 
+  const filteredNotes = notes.filter((note) =>
+    note.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    note.content.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  
+
   return (
     <div className="max-w-xl mx-auto mt-10 p-4 bg-white rounded shadow">
       <h1 className="text-2xl font-bold mb-4">📝 My Notes</h1>
@@ -91,6 +98,13 @@ function App() {
           {error}
         </p>
       )}
+      <input
+        type="text"
+        placeholder="Search notes..."
+        className="border p-2 w-full mb-4 rounded"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
 
       {/* Form */}
       <form onSubmit={handleAddNote}>
@@ -134,9 +148,10 @@ function App() {
         {notes.length === 0 && isInitialized ? (
           <p className="text-gray-500">No notes yet. Add one above!</p>
         ) : (
-          notes.map((note) => (
+          filteredNotes.map((note) => (
             <NoteCard key={note.id} note={note} onDelete={handleDeleteNote} />
           ))
+          
         )}
       </div>
     </div>
