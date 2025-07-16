@@ -3,6 +3,7 @@ import { NoteCard } from './components/NoteCard';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
+
 function App() {
   const [notes, setNotes] = useState<Note[]>([]);
   const [title, setTitle] = useState<string>('');
@@ -23,12 +24,17 @@ function App() {
     setContent('');
   };
 
+  const handleDeleteNote = (id: string) => {
+    setNotes((prevNotes) => prevNotes.filter(note => note.id !== id));
+  };
+
   return (
     <div className="max-w-xl mx-auto mt-10 p-4 bg-white rounded shadow">
       <h1 className="text-2xl font-bold mb-4">📝 My Notes</h1>
 
-      {/* Input Form */}
+      {/* Form */}
       <input
+        name='title'
         type="text"
         placeholder="Title"
         className="border p-2 w-full mb-2 rounded"
@@ -36,6 +42,7 @@ function App() {
         onChange={(e) => setTitle(e.target.value)}
       />
       <textarea
+        name='content'
         placeholder="Content"
         className="border p-2 w-full mb-2 rounded"
         value={content}
@@ -48,10 +55,10 @@ function App() {
         Add Note
       </button>
 
-      {/* Notes List */}
+      {/* Notes */}
       <div className="mt-6">
         {notes.map((note) => (
-          <NoteCard key={note.id} note={note} />
+          <NoteCard key={note.id} note={note} onDelete={handleDeleteNote} />
         ))}
       </div>
     </div>
@@ -59,3 +66,4 @@ function App() {
 }
 
 export default App;
+
