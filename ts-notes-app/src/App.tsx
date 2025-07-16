@@ -11,6 +11,8 @@ function App() {
   const [isInitialized, setIsInitialized] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>(''); // 🧠 search input
+  const [selectedTag, setSelectedTag] = useState<string | null>(null);
+
 
   const availableTags = ['Work', 'Personal', 'Urgent', 'Ideas', 'Study'];
 
@@ -89,10 +91,19 @@ function App() {
     setNotes((prevNotes) => prevNotes.filter((note) => note.id !== id));
   };
 
-  const filteredNotes = notes.filter((note) =>
-    note.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    note.content.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // const filteredNotes = notes.filter((note) =>
+  //   note.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //   note.content.toLowerCase().includes(searchTerm.toLowerCase())
+  // );
+  const filteredNotes = notes.filter((note) => {
+    const matchesSearch =
+      note.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      note.content.toLowerCase().includes(searchTerm.toLowerCase());
+  
+    const matchesTag = selectedTag ? note.tags.includes(selectedTag) : true;
+  
+    return matchesSearch && matchesTag;
+  });
   
 
   return (
@@ -111,6 +122,37 @@ function App() {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
+
+      <div className="mb-4">
+        <p className="font-medium mb-2">Filter by Tag:</p>
+        <div className="flex flex-wrap gap-2">
+          {availableTags.map((tag) => (
+            <button
+              key={tag}
+              onClick={() =>
+                setSelectedTag((prev) => (prev === tag ? null : tag))
+              }
+              className={`px-3 py-1 rounded-full border text-sm ${
+                selectedTag === tag
+                  ? 'bg-blue-500 text-white border-blue-500'
+                  : 'bg-white text-gray-700 border-gray-300'
+              }`}
+            >
+              {tag}
+            </button>
+          ))}
+        </div>
+      </div>
+      {selectedTag && (
+        <button
+          onClick={() => setSelectedTag(null)}
+          className="mt-2 text-sm text-blue-600 hover:underline"
+        >
+          Clear tag filter
+        </button>
+      )}
+
+
 
       {/* Form */}
       <form onSubmit={handleAddNote}>
