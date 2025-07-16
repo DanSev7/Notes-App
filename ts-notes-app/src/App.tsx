@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import type { Note } from './types/note';
 import { NoteCard } from './components/NoteCard';
 import { useState } from 'react';
@@ -8,6 +9,8 @@ function App() {
   const [notes, setNotes] = useState<Note[]>([]);
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
+  const [isInitialized, setIsInitialized] = useState<boolean>(false); // ✅ NEW
+
 
   const handleAddNote = () => {
     if (!title || !content) return;
@@ -24,9 +27,36 @@ function App() {
     setContent('');
   };
 
+  // Load saved notes
+  useEffect(() => {
+    const savedNotes = localStorage.getItem('notes');
+  
+    if (savedNotes) {
+      const parsed: Note[] = JSON.parse(savedNotes);
+      const notesWithDates = parsed.map((note) => ({
+        ...note,
+        createdAt: new Date(note.createdAt),
+      }));
+      setNotes(notesWithDates);
+    }
+  
+    setIsInitialized(true); // ✅ Mark loading as done
+  }, []);
+  
+
+  // Save notes to localStorage on change
+  useEffect(() => {
+    if (isInitialized) {
+      localStorage.setItem('notes', JSON.stringify(notes));
+    }
+  }, [notes, isInitialized]);
+  
+  
+
   const handleDeleteNote = (id: string) => {
     setNotes((prevNotes) => prevNotes.filter(note => note.id !== id));
   };
+
 
   return (
     <div className="max-w-xl mx-auto mt-10 p-4 bg-white rounded shadow">
