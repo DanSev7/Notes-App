@@ -5,11 +5,15 @@ import { NoteCard } from './components/NoteCard';
 
 function App() {
   const [notes, setNotes] = useState<Note[]>([]);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
   const [isInitialized, setIsInitialized] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>(''); // 🧠 search input
+
+  const availableTags = ['Work', 'Personal', 'Urgent', 'Ideas', 'Study'];
+
 
   const handleAddNote = (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,11 +27,13 @@ function App() {
       title: title.trim(),
       content: content.trim(),
       createdAt: new Date(),
+      tags: selectedTags,
     };
 
     setNotes((prev) => [...prev, newNote]);
     setTitle('');
     setContent('');
+    setSelectedTags([]);
     setError(null);
   };
 
@@ -134,6 +140,29 @@ function App() {
             value={content}
             onChange={(e) => setContent(e.target.value)}
           />
+          <div className="mb-4">
+            <p className="font-medium mb-2">Tags:</p>
+            <div className="flex flex-wrap gap-2">
+              {availableTags.map((tag) => (
+                <label key={tag} className="flex items-center space-x-2 text-sm">
+                  <input
+                    type="checkbox"
+                    value={tag}
+                    checked={selectedTags.includes(tag)}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setSelectedTags((prev) =>
+                        prev.includes(value)
+                          ? prev.filter((t) => t !== value)
+                          : [...prev, value]
+                      );
+                    }}
+                  />
+                  <span>{tag}</span>
+                </label>
+              ))}
+            </div>
+          </div>
         </div>
         <button
           type="submit"

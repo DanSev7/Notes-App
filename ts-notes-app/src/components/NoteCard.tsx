@@ -22,7 +22,21 @@ export const NoteCard: React.FC<NoteCardProps> = ({ note, onDelete }) => {
         >
           Delete
         </button>
+
+
       </div>
+        {note.tags && (
+            <div className="mt-2 flex flex-wrap gap-2">
+                {note.tags.map((tag) => (
+                <span
+                    key={tag}
+                    className="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded-full"
+                >
+                    {tag}
+                </span>
+                ))}
+            </div>
+            )}
     </div>
   );
 };
