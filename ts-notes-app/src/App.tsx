@@ -259,9 +259,9 @@ function App() {
             ))
           )}
         </div>
-        {/* Delete Confirmation Modal */}
+        {/* Delete Confirmation Modal (popup centered, no overlay) */}
         {noteIdToDelete && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
+          <div className="fixed inset-0 flex items-center justify-center z-50">
             <div className="bg-white rounded-xl shadow-2xl p-8 max-w-sm w-full border-2 border-pink-300">
               <h2 className="text-xl font-bold mb-4 text-pink-600 flex items-center gap-2"><span>⚠️</span> Confirm Delete</h2>
               <p className="mb-6 text-gray-700">Are you sure you want to delete this note? This action cannot be undone.</p>
