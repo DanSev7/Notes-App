@@ -13,7 +13,7 @@ function App() {
   const [searchTerm, setSearchTerm] = useState<string>(''); // 🧠 search input
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [tagInput, setTagInput] = useState<string>(''); // for new tag typing
-
+  const [noteIdToDelete, setNoteIdToDelete] = useState<string | null>(null);
 
 
   const availableTags = ['Work', 'Personal', 'Urgent', 'Ideas', 'Study'];
@@ -107,10 +107,6 @@ function App() {
     );
   };
   
-  // const filteredNotes = notes.filter((note) =>
-  //   note.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //   note.content.toLowerCase().includes(searchTerm.toLowerCase())
-  // );
   const filteredNotes = notes.filter((note) => {
     const matchesSearch =
       note.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -257,12 +253,38 @@ function App() {
               <NoteCard 
                 key={note.id} 
                 note={note} 
-                onDelete={handleDeleteNote}
                 onEdit={handleEditNote}
+                onRequestDelete={() => setNoteIdToDelete(note.id)}
               />
             ))
           )}
         </div>
+        {/* Delete Confirmation Modal */}
+        {noteIdToDelete && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
+            <div className="bg-white rounded-xl shadow-2xl p-8 max-w-sm w-full border-2 border-pink-300">
+              <h2 className="text-xl font-bold mb-4 text-pink-600 flex items-center gap-2"><span>⚠️</span> Confirm Delete</h2>
+              <p className="mb-6 text-gray-700">Are you sure you want to delete this note? This action cannot be undone.</p>
+              <div className="flex justify-end gap-3">
+                <button
+                  className="bg-gradient-to-r from-red-400 to-pink-500 text-white px-4 py-2 rounded-lg font-bold shadow hover:from-pink-500 hover:to-red-400 transition"
+                  onClick={() => {
+                    handleDeleteNote(noteIdToDelete);
+                    setNoteIdToDelete(null);
+                  }}
+                >
+                  Yes
+                </button>
+                <button
+                  className="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg font-bold hover:bg-gray-300 transition"
+                  onClick={() => setNoteIdToDelete(null)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

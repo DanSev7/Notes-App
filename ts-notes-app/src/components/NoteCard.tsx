@@ -3,13 +3,13 @@ import type { Note } from '../types/note';
 
 interface NoteCardProps {
   note: Note;
-  onDelete: (id: string) => void; // 💡 typed callback: takes string, returns nothing
   onEdit: (id: string, updatedNote: Partial<Note>) => void;
+  onRequestDelete: () => void;
 }
 
 
 
-export const NoteCard: React.FC<NoteCardProps> = ({ note, onDelete, onEdit }) => {
+export const NoteCard: React.FC<NoteCardProps> = ({ note, onEdit, onRequestDelete }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editTitle, setEditTitle] = useState(note.title);
     const [editContent, setEditContent] = useState(note.content);
@@ -115,7 +115,7 @@ export const NoteCard: React.FC<NoteCardProps> = ({ note, onDelete, onEdit }) =>
           {/* Delete button at bottom right */}
           <div className="flex justify-end mt-6">
             <button
-              onClick={() => onDelete(note.id)}
+              onClick={onRequestDelete}
               className="bg-gradient-to-r from-red-400 to-pink-500 text-white px-4 py-1 rounded-lg font-bold shadow hover:from-pink-500 hover:to-red-400 transition flex items-center gap-1"
               title="Delete Note"
             >
