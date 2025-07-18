@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import type { Note } from './types/note';
 import { NoteCard } from './components/NoteCard';
+import { FaRegStickyNote, FaPlus, FaTimes, FaExclamationTriangle } from 'react-icons/fa';
 
 function App() {
   const [notes, setNotes] = useState<Note[]>([]);
@@ -122,7 +123,7 @@ function App() {
     <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 py-10">
       <div className="max-w-xl mx-auto p-6 bg-white border-2 border-blue-200 rounded-2xl shadow-2xl">
         <h1 className="text-3xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-500 to-pink-500 flex items-center gap-2">
-          <span role="img" aria-label="notes">📝</span> My Notes
+          <FaRegStickyNote className="inline-block" /> My Notes
         </h1>
         <div className="h-1 w-24 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 rounded-full mb-6" />
 
@@ -162,7 +163,7 @@ function App() {
             onClick={() => setSelectedTag(null)}
             className="mt-2 text-sm text-blue-600 hover:underline flex items-center gap-1"
           >
-            <span>✖</span> Clear tag filter
+            <FaTimes /> Clear tag filter
           </button>
         )}
 
@@ -237,7 +238,7 @@ function App() {
             type="submit"
             className="bg-gradient-to-r from-blue-500 to-pink-500 text-white px-6 py-2 rounded-lg font-bold shadow-md hover:from-pink-500 hover:to-blue-500 transition flex items-center gap-2 mt-2"
           >
-            <span>➕</span> Add Note
+            <FaPlus /> Add Note
           </button>
         </form>
 
@@ -263,7 +264,7 @@ function App() {
         {noteIdToDelete && (
           <div className="fixed inset-0 flex items-center justify-center z-50">
             <div className="bg-white rounded-xl shadow-2xl p-8 max-w-sm w-full border-2 border-pink-300">
-              <h2 className="text-xl font-bold mb-4 text-pink-600 flex items-center gap-2"><span>⚠️</span> Confirm Delete</h2>
+              <h2 className="text-xl font-bold mb-4 text-pink-600 flex items-center gap-2"><FaExclamationTriangle /> Confirm Delete</h2>
               <p className="mb-6 text-gray-700">Are you sure you want to delete this note? This action cannot be undone.</p>
               <div className="flex justify-end gap-3">
                 <button

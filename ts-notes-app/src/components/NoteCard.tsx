@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { Note } from '../types/note';
+import { FaEdit, FaTrash, FaCalendarAlt, FaTimes } from 'react-icons/fa';
 
 interface NoteCardProps {
   note: Note;
@@ -77,7 +78,7 @@ export const NoteCard: React.FC<NoteCardProps> = ({ note, onEdit, onRequestDelet
               onClick={() => setIsEditing(false)}
               className="bg-gray-200 text-gray-800 px-4 py-1 rounded-lg font-bold hover:bg-gray-300 transition flex items-center gap-1"
             >
-              <span>✖</span> Cancel
+              <FaTimes /> Cancel
             </button>
           </div>
         </div>
@@ -89,14 +90,14 @@ export const NoteCard: React.FC<NoteCardProps> = ({ note, onEdit, onRequestDelet
             className="absolute top-3 right-3 bg-gradient-to-r from-yellow-400 to-pink-400 text-white p-2 rounded-full shadow hover:from-pink-400 hover:to-yellow-400 transition flex items-center gap-1 z-10"
             title="Edit Note"
           >
-            <span>✏️</span>
+            <FaEdit />
           </button>
           <h2 className="text-xl font-bold text-blue-700 mb-1 flex items-center gap-2">
             <span role="img" aria-label="note">🗒️</span> {note.title}
           </h2>
           <p className="text-gray-700 whitespace-pre-wrap mb-2">{note.content}</p>
           <p className="text-xs text-gray-500 mt-2 flex items-center gap-1">
-            <span role="img" aria-label="calendar">📅</span> Created: {note.createdAt.toLocaleString()}
+            <FaCalendarAlt /> Created: {note.createdAt.toLocaleString()}
           </p>
 
           {note.tags.length > 0 && (
@@ -119,7 +120,7 @@ export const NoteCard: React.FC<NoteCardProps> = ({ note, onEdit, onRequestDelet
               className="bg-gradient-to-r from-red-400 to-pink-500 text-white px-4 py-1 rounded-lg font-bold shadow hover:from-pink-500 hover:to-red-400 transition flex items-center gap-1"
               title="Delete Note"
             >
-              <span>🗑️</span> Delete
+              <FaTrash /> Delete
             </button>
           </div>
         </div>
