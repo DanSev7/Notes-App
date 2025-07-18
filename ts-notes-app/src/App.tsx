@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import type { Note } from './types/note';
 import { NoteCard } from './components/NoteCard';
-import { FaRegStickyNote, FaPlus, FaTimes, FaExclamationTriangle } from 'react-icons/fa';
+import { FaStickyNote, FaPlus, FaTimes, FaExclamationTriangle } from 'react-icons/fa';
 
 function App() {
   const [notes, setNotes] = useState<Note[]>([]);
@@ -123,7 +123,7 @@ function App() {
     <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 py-10">
       <div className="max-w-xl mx-auto p-6 bg-white border-2 border-blue-200 rounded-2xl shadow-2xl">
         <h1 className="text-3xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-500 to-pink-500 flex items-center gap-2">
-          <FaRegStickyNote className="inline-block" /> My Notes
+          <FaStickyNote className="inline-block" /> My Notes
         </h1>
         <div className="h-1 w-24 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 rounded-full mb-6" />
 
