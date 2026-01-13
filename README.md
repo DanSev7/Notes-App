@@ -77,3 +77,5 @@ ts-notes-app/
 
 ## License
 MIT
+
+## Developed by @Dan7
